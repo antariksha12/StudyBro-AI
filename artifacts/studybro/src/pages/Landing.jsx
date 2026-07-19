@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import {
   Sparkles, FileText, ImageIcon, BrainCircuit, ListChecks, Layers,
@@ -32,6 +33,13 @@ const fadeUp = {
 };
 
 export default function Landing() {
+  const { user, loading } = useAuth();
+
+  if (loading) return null;
+
+  if (user) {
+    return <Navigate to="/study" replace />;
+  }
   return (
     <div className="overflow-hidden">
       <Navbar />
