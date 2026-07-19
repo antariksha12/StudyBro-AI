@@ -20,7 +20,7 @@ export default function Login() {
       toast.success("Welcome back!");
       navigate("/study");
     } catch (err) {
-      toast.error(friendlyError(err.code) || "Could not log in");
+      toast.error(friendlyError(err.code) || err.message || "Could not log in");
     } finally {
       setLoading(false);
     }

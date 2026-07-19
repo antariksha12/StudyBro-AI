@@ -7,6 +7,7 @@ import {
   signInWithPopup,
   signOut,
   updateProfile,
+  sendEmailVerification,
 } from "firebase/auth";
 import { auth, googleProvider } from "../firebase";
 import api from "../services/api";
@@ -38,10 +39,23 @@ export function AuthProvider({ children }) {
   const signup = async (name, email, password) => {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(cred.user, { displayName: name });
-    return cred.user;
-  };
+    await sendEmailVerification(cred.user);
+    await signOut(auth);
+    throw new Error("Please verify your email before logging in.");
+    };
 
-  const login = (email, password) => signInWithEmailAndPassword(auth, email, password);
+  const login = async (email, password) => {
+  const cred = await signInWithEmailAndPassword(auth, email, password);
+
+  console.log("LOGIN VERIFY STATUS:", cred.user.emailVerified);
+
+  if (!cred.user.emailVerified) {
+    await signOut(auth);
+    throw new Error("Please verify your email before logging in.");
+  }
+
+  return cred.user;
+};
 
   const loginWithGoogle = () => signInWithPopup(auth, googleProvider);
 
