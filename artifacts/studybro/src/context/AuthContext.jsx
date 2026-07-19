@@ -20,6 +20,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     // Fires whenever the Firebase auth state changes (login, logout, token refresh)
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      console.log("Firebase user:", firebaseUser);
       setUser(firebaseUser);
       setLoading(false);
       if (firebaseUser) {
