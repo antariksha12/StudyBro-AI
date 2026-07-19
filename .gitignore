@@ -1,0 +1,12 @@
+node_modules/
+dist/
+build/
+.vite/
+.env
+.env.*
+*.log
+.DS_Store
+Thumbs.db
+*.tsbuildinfo
+attached_assets/
+*.zip

@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "StudyBro AI"
+version = "1.0.0"
+id = "artifacts/studybro"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23624
+
+[services.development]
+run = "pnpm --filter @workspace/studybro run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/studybro", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/studybro/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23624"
+BASE_PATH = "/"
